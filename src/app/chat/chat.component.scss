@@ -1,0 +1,62 @@
+.container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    .sendMessageBox {
+        height: 4vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+            input {
+                height: 100%;
+                color: white;
+                background-color: #040D12;
+                border: none;
+                outline: none;
+                font-size: medium;
+            }
+        }
+}
+
+.nameProfile {
+    height: 3vh;
+    width: fit-content;
+    padding: 0 0 0 1em; 
+    display: flex;
+    align-items: center;
+}
+
+.listMessageBox {
+    overflow-y: scroll;
+    height: 92vh; 
+    scrollbar-width: none;
+    background-color: #183D3D;
+}
+
+.scrollBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.receiverMsg {
+    color: white;
+    background-color: #93B1A6;
+    align-self: flex-end;
+}
+
+.senderMsg {
+    color: white;
+    background-color: #183D3D;
+}
+
+p {
+    border: 1px solid white;
+    border-radius: 15px;
+    width: fit-content;
+    padding: 5px;
+    margin: 10px;
+}
+
+
+

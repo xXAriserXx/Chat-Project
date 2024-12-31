@@ -1,0 +1,12 @@
+{
+    "ts-node": {
+      "compilerOptions": {
+        "module": "NodeNext"
+      }
+    },
+    "compilerOptions": {
+      "esModuleInterop": true,
+      "moduleResolution": "NodeNext",
+      "module": "NodeNext"
+    }
+  }

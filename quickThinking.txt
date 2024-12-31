@@ -1,0 +1,107 @@
+Here I go with some quick thinking:
+
+So how does it work
+
+Let's say im a user
+I enter there are two options, either register or login
+If i register the user must be saved with something like this:
+ {
+    id: 3abc,
+    role: user, 
+    name: Rudeus,
+    surname: Greyrat,
+    email: Rude@rat.rox,
+    number:3519283051
+}
+
+Once he is registered he can log in
+
+When He logs in he should be able to see all his messages,
+Actually he won't be able to see all his messages, he will only be able to talk to a guy named Orsted
+
+So when the he logs in there should be a post request that gets the messages that involve that user using as the parameter its id
+
+so the request should look something like:
+  getMessages (userId) {
+    this.http.get(`http://localhost:3000/messages?userId=${userId}>`).subscribe({
+      next: () => {}
+    })
+  }
+
+the collection that holds all the messages should contain messages with the following structure
+{
+    id:1
+    senderId: 3abc,
+    receiverId: 1
+    date: 2024-12-22T00:00:00.000Z,
+    content: "Ciao Orsted sono un tuo grande fan",
+    read: false
+}
+
+Once Orsted which is the only user to have the admin role logs in and opens one of his chats, the read property of the messages that he sees will become true, 
+through a patch request
+
+So how is Orsted able to see all these different users. Orsted is the only one that can access a route which gives back all the users,
+such route will be something like:
+http://localhost:3000/allMessages?>` such a route is only accessible if you are an admin (A custom middleware will be required)
+
+When a get request is made to this url/route ("or whatever this is"), it will give back the names of all the registered users.
+Orsted will be able to click on the name of one of these users and access all the messages that said user has sent him.
+Another thing to consider is how to order this messages. I feel like I will need to use the combineLast operator (from the rxjs Library)
+So let's say he opens the chats with a user called Ruijerd,
+this will prompt a get request with the id of Ruijerd as the parameter, such request will give back all the messages that involve Ruijerd:
+But what about the messages sent by Orsted. I need to find a way to know whether the message was sent by Orsted or a User.
+So basically all the messages that have Ruijerd Id either in its receiverId or senderId property: this will allow me to know whether the message was sent or received by Orsted.
+
+If the Id of Ruijerd matches the senderId of the message then he sent the message
+If the Id of Ruijerd matches the receiverId of the message then Orsted sent the message
+
+So through the the date property this messages will be arranged accordingly, I still don't know how though
+
+
+The steps are a bit clearer now.
+I now should be capable of making a rudimental roadmap
+
+-Make the register Form with a reactive form
+-Make the login Form with a reactive form
+
+
+
+
+I need to know a way for each user to know who they are sending a message to.
+There could be an home page where they can click on an Icon of the user they want to send the message to.
+Each user should like provide their Id when clicked
+
+How do I get all these IDs?
+When the users logs in his page is loaded, said page which is the user dashboard should make a request to get all the user that the user can talk too,
+In my case to make it simpler I will show all the users that are subscribed to the platform
+So such request would return all the users ID. I need to make it so id gets all of them but not the one of the user who logged in.
+There then must be another component which holds all these usersID in the form of icons.
+When i click on those icons the chat component with the id of the user that logged in and the one that was clicked will show up
+Such component will have the sender and the receiver properties
+
+
+
+
+Where should the connection to socket IO start. 
+Right now the connection starts when the user starts to use the message service. I think it should start erlier
+It should start as soon as the user has loggedIn.
+
+
+So the guy should connect 
+
+
+
+
+
+
+
+There are also many other thinks that are not as important right now and I will think about them later such as:
+-Lazy loading,
+-Route Guards,
+
+
+
+
+
+

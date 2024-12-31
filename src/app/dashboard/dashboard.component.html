@@ -1,0 +1,16 @@
+<div class="biggestContainer">
+    <form class="container">
+        @for (user of users; track user) {
+            <input class="focusProfileInput" type="radio" id="{{user._id}}" name="user">
+            <label  for="{{user._id}}" (click)="openChat(user._id, user.name)" class="containerProfile">
+                <div class="profilePic"></div>
+                <p>{{user.name}}</p>
+            </label>
+        }
+    </form>
+
+    @if (chatOpen) {
+        <app-chat class="chat" [receiverId]="receiverId" [receiverName]="receiverName" [senderId]="senderId"></app-chat>
+    } @else {
+    }
+</div>

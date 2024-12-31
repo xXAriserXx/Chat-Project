@@ -1,0 +1,17 @@
+<div class="container">
+    <h3 class="nameProfile">{{receiverName}}</h3>
+    <div class="listMessageBox">
+        <div class="scrollBox" #scrollBox>
+            @for (message of messages; track message) {
+                <p [ngClass]="{'senderMsg': message.receiver === senderId, 'receiverMsg': message.receiver !== senderId}">
+                    {{message.content}}
+                </p>
+            }
+        </div>
+    </div>
+
+
+    <div class="sendMessageBox">
+        <input (keydown.enter)="sendMessage(content)" type="text" [(ngModel)]="content">
+    </div>
+</div>
