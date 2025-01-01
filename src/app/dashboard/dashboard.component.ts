@@ -38,7 +38,6 @@ export class DashboardComponent {
   openChat(receiverId, receiverName) {
     this.receiverId = receiverId 
     this.receiverName =  receiverName
-    console.log(receiverId)
     this.chatOpen = true
   }
 

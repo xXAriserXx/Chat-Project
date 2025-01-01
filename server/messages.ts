@@ -5,8 +5,7 @@ import { io, usersSockets } from "./app";
 
 const router = express()
 
-router.get("/:senderId/:receiverId", async (req, res) => { //The following only retrieves the messages that were sent by the sender
-    console.log(`Get request received, sender: ${req.params.senderId}, receiver: ${req.params.receiverId}`);
+router.get("/get/:senderId/:receiverId", async (req, res) => { //The following only retrieves the messages that were sent by the sender
     try { 
         if (!ObjectId.isValid(req.params.senderId) || !ObjectId.isValid(req.params.receiverId)) { 
             res.status(404).send({ msg: `One or both are not valid: ${req.params.senderId}, ${req.params.receiverId}` });
@@ -44,12 +43,27 @@ router.post("/post", async (req, res) => {
             content: req.body.content,
             read: false
         })
-        res.send({msg: `${req.body.sender} sent a message to ${req.body.receiver}`})
+        res.send({msg: `${req.body.sender} sent a message with id ${message.insertedId} to ${req.body.receiver}`})
     }
     catch {
         res.status(500).send("Error")
     }
 
+})
+
+router.patch("/patch/:senderId/:receiverId", async (req, res) => {
+    console.log(`Patch request received, sender: ${req.params.senderId}, receiver: ${req.params.receiverId}`);
+    try {
+        const senderId = req.params.senderId;
+        const receiverId = req.params.receiverId;
+        const updatedMessages = await messages.updateMany(
+            { receiver:senderId, sender:receiverId },
+            { $set: { read: true } }
+        )
+    } 
+    catch {
+        res.status(500).send("Error")
+    }
 })
 
 export const messagesWs = router;

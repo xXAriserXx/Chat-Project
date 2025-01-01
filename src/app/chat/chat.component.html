@@ -2,16 +2,18 @@
     <h3 class="nameProfile">{{receiverName}}</h3>
     <div class="listMessageBox">
         <div class="scrollBox" #scrollBox>
-            @for (message of messages; track message) {
-                <p [ngClass]="{'senderMsg': message.receiver === senderId, 'receiverMsg': message.receiver !== senderId}">
-                    {{message.content}}
-                </p>
-            }
+            <div *ngFor="let message of messages" class="messages" [ngClass]="{'senderMsg': message.receiver !== senderId, 'receiverMsg': message.receiver === senderId}">
+            <p>{{message.content}}</p>
+            <small>{{ message.date | date:'MM/dd/yyyy hh:mm a' }}</small>
+            <small *ngIf="message.read">read</small>
+            <small *ngIf="!message.read">Sent</small>
+        </div>
         </div>
     </div>
 
 
     <div class="sendMessageBox">
-        <input (keydown.enter)="sendMessage(content)" type="text" [(ngModel)]="content">
+        <input placeholder="Type a message" (keydown.enter)="sendMessage(content)" type="text" [(ngModel)]="content">
+        <img src="send.svg" (click)="sendMessage(content)">
     </div>
 </div>

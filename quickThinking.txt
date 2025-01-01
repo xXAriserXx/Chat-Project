@@ -91,8 +91,14 @@ It should start as soon as the user has loggedIn.
 So the guy should connect 
 
 
+So how do I make it so when the message is viewed it is seen as read
+It probably have to do something with socket.IO
+When the user that has received the message opens that chat the messages of the one who sent the messages will have their property read set to true
+So the user opens the chat, as soon as that happens there needs to be a post request that sets the message with the property receiver(who opens the chat) and the 
+property sender(who has sent the message) to read
 
-
+So how will it look like in nodeJs
+The patch request arrives,
 
 
 

@@ -4,19 +4,34 @@
     flex-direction: column;
     height: 100vh;
     .sendMessageBox {
-        height: 4vh;
+        height: 60px; 
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-            input {
-                height: 100%;
-                color: white;
-                background-color: #040D12;
-                border: none;
-                outline: none;
-                font-size: medium;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        input {
+            width: 100%;
+            color: white;
+            background-color: #040D12;
+            border: none;
+            outline: none;
+            font-size: 1.2em;
+            padding-left: 1em;
+            height: 95%;
+        }
+        img {
+            width: 30px;
+            margin-right: 1em;
+            height: fit-content;
+            transition: 0.2s;
+            &:hover {
+                cursor: pointer;
+                background-color: #183D3D;
+                padding: 5px;
+                border-radius: 5px;
             }
         }
+    }
 }
 
 .nameProfile {
@@ -39,24 +54,44 @@
     flex-direction: column;
 }
 
-.receiverMsg {
-    color: white;
-    background-color: #93B1A6;
-    align-self: flex-end;
-}
-
-.senderMsg {
-    color: white;
-    background-color: #183D3D;
-}
-
-p {
+.messages {
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px 0 10px;
+    p {
     border: 1px solid white;
     border-radius: 15px;
     width: fit-content;
     padding: 5px;
-    margin: 10px;
+    margin-bottom: 1px;
+    }
+    small {
+        font-size: 0.75em;
+        margin: 5px;
+        color: #5C8374;
+    }
 }
+
+.receiverMsg {
+    color: white;
+    align-self: flex-start; 
+    p {
+        background-color: #183D3D;
+    }
+    small:nth-of-type(2) {
+        display: none;
+    }
+}
+
+.senderMsg {
+    align-items: flex-end;
+    align-self: flex-end;
+    color: white;
+    p {
+        background-color: #93B1A6;
+    }
+}
+
 
 
 

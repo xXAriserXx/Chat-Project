@@ -17,7 +17,7 @@ export class MessagesService {
   }
   
   getMessages (senderId, receiverId) {
-    return this.http.get(`http://localhost:3000/messages/${senderId}/${receiverId}`); 
+    return this.http.get(`http://localhost:3000/messages/get/${senderId}/${receiverId}`); 
   }
 
   sendMessage (message:IMessage) {
@@ -25,18 +25,31 @@ export class MessagesService {
   }
 
   getAllMessages () { //Rotta di Orsted
-    return this.http.get('http://localhost:3000/allMessages')
+    return this.http.get("http://localhost:3000/allMessages")
   }
 
-listenForMessages(): Observable<any> {
-  console.log(this.socket)
-  return new Observable(observer => {
-      console.log("entrato")
+  setToRead (senderId, receiverId) {
+    return this.http.patch(`http://localhost:3000/messages/patch/${senderId}/${receiverId}`, {})
+  }
+
+  listenForMessages(): Observable<any> { //So this basically activates when a message is sent. On the server there is an emitter that actiates on post requests, 
+  // it shows the message instantly
+    return new Observable(observer => {
       this.socket.on('received_message', message => {
         console.log(message);
         observer.next(message);
       });
-  });
-}
+    })
+  }
+
+  listenForUpdateRead() { // So this should activate when a message has been read (ngOnChanges), 
+    return new Observable(observer => {
+      this.socket.on('seen_message', message => {
+        console.log(message);
+        observer.next(message);
+      });
+    })
+  }
+
 
 }

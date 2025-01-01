@@ -43,17 +43,17 @@ export class ChatComponent {
       error: (error) => {console.log(error)},
       complete: () => {console.log()}
     });
+    this.messagesService.setToRead(this.senderId, this.receiverId).subscribe()
   }
 
   ngOnInit() {
     this.messagesService.listenForMessages().subscribe({
       next: (data) => {
-        console.log("This is the data " + data)
         this.messages.push(data)
         this.scrollToBottom()
       },
       error: (error) => {console.log(error)},
-      complete: () => {console.log("hellobruderson")}
+      complete: () => {console.log()}
     })
 
   }
@@ -74,7 +74,6 @@ export class ChatComponent {
         },
         error: (error) => {console.log(error)},
         complete: () => {
-          console.log("message sent")
             this.scrollToBottom()
         }
       })

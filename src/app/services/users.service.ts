@@ -24,7 +24,6 @@ export class UsersService {
   }
 
   connect (userId) {
-    console.log(userId)
     this.socket = io("http://localhost:3000", {
       query: {userId}
     }) 
@@ -32,14 +31,10 @@ export class UsersService {
 
   getSocket (): Socket{
     if (this.socket == undefined) {
-      console.log("The socket is being initialized in another way")
       const userId = window.location.href.split("/").pop()
-      console.log("This is the id")
-      console.log(userId)
       this.socket = io("http://localhost:3000", {
         query: {userId}
       }) 
-      console.log(this.socket)
     }
     return this.socket
 
