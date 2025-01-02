@@ -33,6 +33,7 @@ router.get("/get/:senderId/:receiverId", async (req, res) => { //The following o
 });
 
 router.post("/post", async (req, res) => {
+    console.log(`post request received, sender: ${req.body.sender}, receiver: ${req.body.receiver}`);
     try {
         const socketId = usersSockets.get(req.body.receiver) 
         io.to(socketId).emit("received_message", req.body)
@@ -51,9 +52,11 @@ router.post("/post", async (req, res) => {
 
 })
 
-router.patch("/patch/:senderId/:receiverId", async (req, res) => {
+router.patch("/patch/:senderId/:receiverId", async (req, res) => { //this is route is activated on the one who receives the message
     console.log(`Patch request received, sender: ${req.params.senderId}, receiver: ${req.params.receiverId}`);
     try {
+        const socketId = usersSockets.get(req.params.receiverId)
+        io.to(socketId).emit("read_message")
         const senderId = req.params.senderId;
         const receiverId = req.params.receiverId;
         const updatedMessages = await messages.updateMany(

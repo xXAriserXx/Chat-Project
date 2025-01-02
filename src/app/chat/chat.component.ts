@@ -1,7 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { UsersService } from '../services/users.service';
 import { MessagesService } from '../services/messages.service';
-import { ActivatedRoute } from '@angular/router';
 import { IMessage } from '../../../server/models/IMessage';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './chat.component.scss'
 })
 export class ChatComponent {
-  constructor (private userService:UsersService, private messagesService:MessagesService, private route:ActivatedRoute) { }
+  constructor (private messagesService:MessagesService) { }
 
   @ViewChild('scrollBox') scrollBox: any
 
@@ -35,27 +33,46 @@ export class ChatComponent {
   }
 
   ngOnChanges () {
+    console.log("ngOnChanges")
+
+    this.messagesService.setToRead(this.senderId, this.receiverId).subscribe({
+      next: (data) => {console.log(data)}
+    })
+
     this.messagesService.getMessages(this.senderId, this.receiverId).subscribe({
       next: (data:IMessage[])=> {
         this.messages = data
         this.scrollToBottom()
       },
-      error: (error) => {console.log(error)},
+      error: (error) => {
+        if (error.status === 404) {
+          console.log("Not found");
+          this.messages = []
+        } else {
+          console.log(error);
+        }
+      },
       complete: () => {console.log()}
     });
-    this.messagesService.setToRead(this.senderId, this.receiverId).subscribe()
   }
 
   ngOnInit() {
-    this.messagesService.listenForMessages().subscribe({
+    this.messagesService.listenForUpdateRead().subscribe({
       next: (data) => {
-        this.messages.push(data)
-        this.scrollToBottom()
+        console.log(data)
+      }
+    })
+
+    this.messagesService.listenForMessages().subscribe({
+      next: (data:IMessage) => {
+        if (data.sender == this.receiverId) {
+          this.messages.push(data)
+          this.scrollToBottom()
+        }
       },
       error: (error) => {console.log(error)},
       complete: () => {console.log()}
     })
-
   }
 
   sendMessage (content) {

@@ -100,6 +100,23 @@ property sender(who has sent the message) to read
 So how will it look like in nodeJs
 The patch request arrives,
 
+Let's make a simple example to understand what is going on...
+User1 sends message to user2.
+When user1 sends the message a post request is made and the message is saved in the database with user1 as the sender and user2 as the receiver
+The post request also emits something using socket io "io.to(socketId).emit("received_message", req.body)"
+This emits to a specific socketId the event received_message that has attached to it the message that was sent using the post request
+This event triggers all the sockets that are "linked" to the received_message.
+In my case the listenForMessages inside the messageService was triggered. 
+It emits observables which then I then subscribe to in the ngOnInit of the chat.component.ts
+
+In my chat.component.ts there is also a part that should check whether the user has seen the message or not.
+To achieve that a patch request is made whenever there is a change (ngOnChanges).
+This patch request has two parameters for all the messages that have the sender as the receiver and the receiver as the sender ("So on the side of who received the message") 
+it sets them to "read"
+
+So ngOnChanges needs to be triggered whenever a message is received
+
+
 
 
 There are also many other thinks that are not as important right now and I will think about them later such as:
