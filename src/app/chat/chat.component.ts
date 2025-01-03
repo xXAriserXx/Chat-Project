@@ -3,7 +3,7 @@ import { MessagesService } from '../services/messages.service';
 import { IMessage } from '../../../server/models/IMessage';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { tap, switchMap, filter, catchError, of } from 'rxjs';
+import { tap, switchMap, filter, catchError, of, EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -57,8 +57,14 @@ export class ChatComponent {
 
   ngOnInit() {
     this.messagesService.listenForUpdateRead().pipe(
-      tap(() => console.log('Listening for update...')), // Added log here
-      switchMap(() => this.messagesService.getMessages(this.senderId, this.receiverId))
+      switchMap(() => {
+        if (this.messages.length !== 0) {
+          return this.messagesService.getMessages(this.senderId, this.receiverId);
+        } 
+        else {
+          return EMPTY; // Or any other observable if the condition isn't met
+        }
+      })
     ).subscribe({
       next: (updatedMessages: IMessage[]) => {
         const lastMessage = this.messages.pop();

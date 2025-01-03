@@ -1,7 +1,7 @@
 .container {
     margin: 0 auto;
     position: absolute;
-    top: 20%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     form {
@@ -12,10 +12,6 @@
         border-radius: 15px;
         padding: 20px;
         div {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1vw;
             input {
                 color: white;
                 background-color: #183D3D;
@@ -45,4 +41,17 @@
         }
     }
     }
+}
+
+.container  div  div {
+}
+
+.container div {
+    display: flex;
+    flex-direction: column;
+}
+
+small {
+    position: absolute;
+    color: white;
 }
