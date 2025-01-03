@@ -3,6 +3,7 @@ import { MessagesService } from '../services/messages.service';
 import { IMessage } from '../../../server/models/IMessage';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { tap, switchMap, filter, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -35,9 +36,7 @@ export class ChatComponent {
   ngOnChanges () {
     console.log("ngOnChanges")
 
-    this.messagesService.setToRead(this.senderId, this.receiverId).subscribe({
-      next: (data) => {console.log(data)}
-    })
+    this.messagesService.setToRead(this.senderId, this.receiverId).subscribe({}) 
 
     this.messagesService.getMessages(this.senderId, this.receiverId).subscribe({
       next: (data:IMessage[])=> {
@@ -53,26 +52,38 @@ export class ChatComponent {
         }
       },
       complete: () => {console.log()}
-    });
+    }); 
   }
 
   ngOnInit() {
-    this.messagesService.listenForUpdateRead().subscribe({
-      next: (data) => {
-        console.log(data)
-      }
-    })
-
-    this.messagesService.listenForMessages().subscribe({
-      next: (data:IMessage) => {
-        if (data.sender == this.receiverId) {
-          this.messages.push(data)
-          this.scrollToBottom()
-        }
+    this.messagesService.listenForUpdateRead().pipe(
+      tap(() => console.log('Listening for update...')), // Added log here
+      switchMap(() => this.messagesService.getMessages(this.senderId, this.receiverId))
+    ).subscribe({
+      next: (updatedMessages: IMessage[]) => {
+        const lastMessage = this.messages.pop();
+        console.log('Last message content:', lastMessage.content);
+        lastMessage.read = true;
+        this.messages = updatedMessages.slice(0, -1);
+        this.messages.push(lastMessage);
+        console.log('Updated messages:', this.messages);
       },
-      error: (error) => {console.log(error)},
-      complete: () => {console.log()}
-    })
+      error: (error) => console.error('Error in listenForUpdateRead:', error)
+    });
+
+
+
+    this.messagesService.listenForMessages().pipe(
+      filter((data: IMessage) => data.sender === this.receiverId),
+      tap((data: IMessage) => {
+        this.messages.push(data);
+        this.scrollToBottom();
+      }),
+      switchMap(() => this.messagesService.setToRead(this.senderId, this.receiverId))
+    ).subscribe({
+      error: (error) => console.error(error)
+    });
+
   }
 
   sendMessage (content) {

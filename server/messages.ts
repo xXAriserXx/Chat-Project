@@ -63,6 +63,7 @@ router.patch("/patch/:senderId/:receiverId", async (req, res) => { //this is rou
             { receiver:senderId, sender:receiverId },
             { $set: { read: true } }
         )
+        res.send({msg: "message set to read"})
     } 
     catch {
         res.status(500).send("Error")

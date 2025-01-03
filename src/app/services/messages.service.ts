@@ -29,7 +29,6 @@ export class MessagesService {
   }
 
   setToRead (senderId, receiverId) {
-    console.log("Patch request made")
     return this.http.patch(`http://localhost:3000/messages/patch/${senderId}/${receiverId}`, {})
   }
 
@@ -46,7 +45,7 @@ export class MessagesService {
   listenForUpdateRead() { // So this activates on the user who sent the message, it listens for events emitted in the patch request
     return new Observable(observer => {
       this.socket.on('read_message', () => {
-        console.log("triggered")
+        console.log("listenForUpdateRead activated")
         observer.next("message was read")
       });
     })
