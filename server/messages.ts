@@ -20,11 +20,6 @@ router.get("/get/:senderId/:receiverId", async (req, res) => { //The following o
             ] 
         }).toArray();
 
-        if (foundMessages.length === 0) {
-            res.status(404).send({ msg: `No messages found for: ${req.params.senderId}, ${req.params.receiverId}` });
-            return
-        }
-
         res.send(foundMessages);
     }
     catch (err) {
