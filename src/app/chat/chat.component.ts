@@ -65,8 +65,7 @@ export class ChatComponent {
       next: (updatedMessages: IMessage[]) => {
         // console.log("messages when i get them")
         console.log(updatedMessages)
-        const lastMessage = { ...this.messages.pop() };
-        // console.log('Last message content:', lastMessage?.content);
+        const lastMessage = { ...updatedMessages[updatedMessages.length - 1] };
         if(lastMessage) {
           lastMessage.read = true;
           this.messages = updatedMessages.slice(0, -1); 
@@ -84,7 +83,7 @@ export class ChatComponent {
     });
 
     this.messagesService.listenForMessages().pipe(
-      filter((data: IMessage) => data.sender === this.receiverId),
+      filter((data: IMessage) => data.sender === this.receiverId && data.receiver === this.receiverId),
       tap((data: IMessage) => {
         this.messages.push(data); //THere is push here
         this.scrollToBottom();
