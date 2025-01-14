@@ -36,6 +36,8 @@ export class MessagesService {
   // it shows the message instantly
     return new Observable(observer => {
       this.socket.on('received_message', message => {
+        console.log("emitted message")
+        console.log(message)
         observer.next(message);
       });
     })

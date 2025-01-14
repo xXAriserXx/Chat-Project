@@ -1,11 +1,11 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { ObjectId } from "mongodb";
-import { messages, users } from "./db";
+import { messages } from "./db";
 import { io, usersSockets } from "./app";
 
 const router = express()
 
-router.get("/get/:senderId/:receiverId", async (req, res) => { //The following only retrieves the messages that were sent by the sender
+router.get("/get/:senderId/:receiverId", async (req, res) => { 
     try { 
         if (!ObjectId.isValid(req.params.senderId) || !ObjectId.isValid(req.params.receiverId)) { 
             res.status(404).send({ msg: `One or both are not valid: ${req.params.senderId}, ${req.params.receiverId}` });
@@ -47,7 +47,7 @@ router.post("/post", async (req, res) => {
 
 })
 
-router.patch("/patch/:senderId/:receiverId", async (req, res) => { //this is route is activated on the one who receives the message
+router.patch("/patch/:senderId/:receiverId", async (req, res) => { 
     console.log(`Patch request received, sender: ${req.params.senderId}, receiver: ${req.params.receiverId}`);
     try {
         const socketId = usersSockets.get(req.params.receiverId)

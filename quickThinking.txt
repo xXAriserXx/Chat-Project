@@ -121,7 +121,15 @@ So ngOnChanges needs to be triggered whenever a message is received
 
 There are also many other thinks that are not as important right now and I will think about them later such as:
 -Lazy loading,
--Route Guards,
+-Route Guards, this is going to be the hardest to implement I think,
+-Loading message when the user is being registered, then he is redirected to his personal dashboard,
+-There can't be two people with the same number
+-when user is registering with the same number or email there should be an error
+-The user should be able to see the info of other users
+-Errors should be handled in a better way
+
+
+-Lastly there should also be a readme that explains how to test the project also a video where I showcase the whole project
 
 
 

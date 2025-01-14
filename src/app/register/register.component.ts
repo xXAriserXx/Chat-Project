@@ -30,7 +30,7 @@ form: FormGroup;
       this.usersService.register(this.form.value).subscribe({
         next: (data) => {console.log(data)},
         error: (error) => {console.error(error.error.msg)},
-        complete: () => {console.log("completo")}
+        complete: () => {console.log("Letsgoski, the user has been registered")}
       })
     }
   }
