@@ -25,16 +25,21 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
+      console.log("clicked")
       this.userService.login(this.loginForm.value).subscribe({
         next: (data) => {
+          console.log("enters next")
           const token = data.access_token;
           const decodedToken: any = jwtDecode(token);
           const id = decodedToken._id; 
           this.userService.connect(id)
           this.router.navigate(["/dashboard", id])
+          console.log(data)
         },
-        error: (error) => {console.log(error)},
-        complete: () => {}
+        error: (error) => {
+          console.log(error)
+        },
+        complete: () => {console.log("complete")}
       })
     }
   }

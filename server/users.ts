@@ -12,6 +12,7 @@ const encrypt = (word: string) => {
 
 
 router.post("/register", async (req, res) => {
+    console.log("triggered the register route")
     try {
         const existingUser = await users.findOne({ email: req.body.email });
         if (existingUser) {
@@ -35,7 +36,7 @@ router.post("/register", async (req, res) => {
             res.status(400).send({ msg: `Email '${req.body.email}' già registrata` });
         }
         else {
-            res.status(500).send({ msg: "Impossibile creare l'utente" });
+            res.status(500).send({ msg: "Impossibile creare l'utente " + e });
         }
     }
 });
