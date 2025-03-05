@@ -15,7 +15,7 @@ const server:Server = http.createServer(app);
 //Enables the frontEnd and backEnd to comunicate in real time, allowing only connections from a specific url
 export const io: SocketIOServer = new SocketIOServer(server, {
     cors: {
-        origin: "http:localhost:4200",
+        origin: "*"
     }
 })
 
@@ -39,7 +39,7 @@ app.use(bodyParser.json());
 
 //Middleware to allow requests from the frontend that's running on the specified URL  
 app.use(cors({
-    origin: "http:localhost:4200"
+    origin: "*"
 }));
 
 // Route handlers for /messages and /users endpoints

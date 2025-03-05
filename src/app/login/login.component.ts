@@ -38,8 +38,12 @@ export class LoginComponent {
         },
         error: (error) => {
           console.log(error)
+          alert(error.error.msg)
         },
-        complete: () => {console.log("complete")}
+        complete: () => {
+          console.log("complete")
+          alert("User has logged in")
+        }
       })
     }
   }

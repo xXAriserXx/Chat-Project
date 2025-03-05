@@ -24,10 +24,6 @@ export class MessagesService {
     return this.http.post('http://localhost:3000/messages/post', message)
   }
 
-  getAllMessages () { //Rotta di Orsted
-    return this.http.get("http://localhost:3000/allMessages")
-  }
-
   setToRead (senderId, receiverId) {
     return this.http.patch(`http://localhost:3000/messages/patch/${senderId}/${receiverId}`, {})
   }

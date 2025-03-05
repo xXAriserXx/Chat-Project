@@ -34,9 +34,7 @@ export class ChatComponent {
   }
 
   ngOnChanges () {
-    console.log("ngOnChanges")
-
-    this.messagesService.setToRead(this.senderId, this.receiverId).subscribe({}) 
+    //this.messagesService.setToRead(this.senderId, this.receiverId).subscribe({}) 
 
     this.messagesService.getMessages(this.senderId, this.receiverId).subscribe({
       next: (data:IMessage[])=> {
@@ -55,9 +53,9 @@ export class ChatComponent {
     }); 
   }
 
-  ngOnInit() {
+  ngOnInit() {/*
     this.messagesService.listenForUpdateRead().pipe( //serve a caricare i messaggi aggiornati
-      switchMap(() => this.messagesService.getMessages(this.senderId, this.receiverId)),
+      switchMap(() => this.messagesService.getMessages(this.senderId, this.receiverId))
     ).subscribe({
       next: (updatedMessages: IMessage[]) => {
         const lastMessage = { ...updatedMessages[updatedMessages.length - 1] };
@@ -71,6 +69,7 @@ export class ChatComponent {
         console.error('Error in listenForUpdateRead:', error);
       }
     });
+    */
 
     this.messagesService.listenForMessages().pipe(
       tap((data) => {

@@ -63,7 +63,9 @@ router.post("/login", async (req, res) => {
         }
     }
     catch {
-
+        res.send({
+            msg:"There was an error"
+        })
     }
 })
 

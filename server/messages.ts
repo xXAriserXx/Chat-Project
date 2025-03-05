@@ -4,6 +4,7 @@ import { messages } from "./db";
 import { io, usersSockets } from "./app";
 
 const router = express()
+export const messagesWs = router;
 
 router.get("/get/:senderId/:receiverId", async (req, res) => { 
     try { 
@@ -65,4 +66,3 @@ router.patch("/patch/:senderId/:receiverId", async (req, res) => {
     }
 })
 
-export const messagesWs = router;
