@@ -2,7 +2,7 @@
   "name": "chat-app",
   "version": "0.0.0.0.0.0.0.1-pre-alpha",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node dist/app.js",
