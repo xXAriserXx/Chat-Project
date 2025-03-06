@@ -3,7 +3,8 @@
       "compilerOptions": {
         "module": "NodeNext",
         "outDir": "./dist",
-        "rootDir": "./"
+        "rootDir": "./",
+        "target": "ES6"
       }
     },
     "compilerOptions": {
