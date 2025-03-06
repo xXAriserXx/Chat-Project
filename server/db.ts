@@ -1,9 +1,12 @@
 import { MongoClient } from "mongodb";
 import { IMessage } from "./models/IMessage";
 import { IUser } from "./models/IUser";
+import dotenv from "dotenv"
+
+dotenv.config()
 
 //Creating a new mongoDB client using the connection string
-const client = new MongoClient("mongodb+srv://jrprecilla365:7kKfuwdVWFUms7hu@chat-cluster.tp3jc.mongodb.net/?retryWrites=true&w=majority&appName=chat-cluster")
+const client = new MongoClient(process.env.connectionString)
 
 //This constant is a reference to the chatA_db database on mongoDB
 const db = client.db("chat_db")
