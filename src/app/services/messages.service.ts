@@ -12,20 +12,23 @@ export class MessagesService {
 
   private socket:Socket 
 
+  api = "https://chat-project-production-1bff.up.railway.app"
+  /*api = 'http://localhost:3000'*/
+
   constructor(private http:HttpClient, private userService:UsersService) {
     this.socket = userService.getSocket()
   }
   
   getMessages (senderId, receiverId) {
-    return this.http.get(`http://localhost:3000/messages/get/${senderId}/${receiverId}`); 
+    return this.http.get(`${this.api}/messages/get/${senderId}/${receiverId}`); 
   }
 
   sendMessage (message:IMessage) {
-    return this.http.post('http://localhost:3000/messages/post', message)
+    return this.http.post(`${this.api}/messages/post`, message)
   }
 
   setToRead (senderId, receiverId) {
-    return this.http.patch(`http://localhost:3000/messages/patch/${senderId}/${receiverId}`, {})
+    return this.http.patch(`${this.api}/messages/patch/${senderId}/${receiverId}`, {})
   }
 
   listenForMessages(): Observable<any> { //So this basically activates when a message is sent. On the server there is an emitter that actiates on post requests, 

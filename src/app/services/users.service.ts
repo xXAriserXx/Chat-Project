@@ -10,20 +10,22 @@ import { ActivatedRoute } from '@angular/router';
 export class UsersService {
 
   private socket:Socket 
+  api = "https://chat-project-production-1bff.up.railway.app"
+  /*api = 'http://localhost:3000'*/
 
   constructor(private http:HttpClient, private route:ActivatedRoute) {
   }
 
   register(user): Observable<any> {
-    return this.http.post('http://localhost:3000/users/register', user);
+    return this.http.post(`${this.api}/users/register`, user);
   }
 
   login(credentials): Observable<any> {
-    return this.http.post('http://localhost:3000/users/login', credentials);
+    return this.http.post(`${this.api}/users/login`, credentials);
   }
 
   connect (userId) {
-    this.socket = io("http://localhost:3000", {
+    this.socket = io(`${this.api}`, {
       query: {userId}
     }) 
   }
@@ -31,7 +33,7 @@ export class UsersService {
   getSocket (): Socket{
     if (this.socket == undefined) {
       const userId = window.location.href.split("/").pop()
-      this.socket = io("http://localhost:3000", {
+      this.socket = io(`${this.api}`, {
         query: {userId}
       }) 
     }
