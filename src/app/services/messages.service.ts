@@ -4,6 +4,7 @@ import { io, Socket } from "socket.io-client"
 import { Observable } from 'rxjs';
 import { IMessage } from '../../../server/models/IMessage';
 import { UsersService } from './users.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,23 +13,20 @@ export class MessagesService {
 
   private socket:Socket 
 
-  api = "https://chat-project-production-1bff.up.railway.app"
-  /*api = 'http://localhost:3000'*/
-
   constructor(private http:HttpClient, private userService:UsersService) {
     this.socket = userService.getSocket()
   }
   
   getMessages (senderId, receiverId) {
-    return this.http.get(`${this.api}/messages/get/${senderId}/${receiverId}`); 
+    return this.http.get(`${environment.api}/messages/get/${senderId}/${receiverId}`); 
   }
 
   sendMessage (message:IMessage) {
-    return this.http.post(`${this.api}/messages/post`, message)
+    return this.http.post(`${environment.api}/messages/post`, message)
   }
 
   setToRead (senderId, receiverId) {
-    return this.http.patch(`${this.api}/messages/patch/${senderId}/${receiverId}`, {})
+    return this.http.patch(`${environment.api}/messages/patch/${senderId}/${receiverId}`, {})
   }
 
   listenForMessages(): Observable<any> { //So this basically activates when a message is sent. On the server there is an emitter that actiates on post requests, 

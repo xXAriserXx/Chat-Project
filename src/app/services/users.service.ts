@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,22 +11,20 @@ import { ActivatedRoute } from '@angular/router';
 export class UsersService {
 
   private socket:Socket 
-  api = "https://chat-project-production-1bff.up.railway.app"
-  /*api = 'http://localhost:3000'*/
 
   constructor(private http:HttpClient, private route:ActivatedRoute) {
   }
 
   register(user): Observable<any> {
-    return this.http.post(`${this.api}/users/register`, user);
+    return this.http.post(`${environment.api}/users/register`, user);
   }
 
   login(credentials): Observable<any> {
-    return this.http.post(`${this.api}/users/login`, credentials);
+    return this.http.post(`${environment.api}/users/login`, credentials);
   }
 
   connect (userId) {
-    this.socket = io(`${this.api}`, {
+    this.socket = io(`${environment.api}`, {
       query: {userId}
     }) 
   }
@@ -33,7 +32,7 @@ export class UsersService {
   getSocket (): Socket{
     if (this.socket == undefined) {
       const userId = window.location.href.split("/").pop()
-      this.socket = io(`${this.api}`, {
+      this.socket = io(`${environment.api}`, {
         query: {userId}
       }) 
     }
@@ -46,6 +45,6 @@ export class UsersService {
   }
 
   getAllUsers(sender: any): Observable<any> {
-    return this.http.get<any[]>(`${this.api}/users?excludeId=${sender}`)
+    return this.http.get<any[]>(`${environment.api}/users?excludeId=${sender}`)
   }
 }
