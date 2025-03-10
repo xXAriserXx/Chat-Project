@@ -46,6 +46,6 @@ export class UsersService {
   }
 
   getAllUsers(sender: any): Observable<any> {
-    return this.http.get<any[]>(`http://localhost:3000/users?excludeId=${sender}`)
+    return this.http.get<any[]>(`${this.api}/users?excludeId=${sender}`)
   }
 }
