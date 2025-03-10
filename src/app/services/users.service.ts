@@ -20,6 +20,7 @@ export class UsersService {
   }
 
   login(credentials): Observable<any> {
+    console.log(environment.api)
     return this.http.post(`${environment.api}/users/login`, credentials);
   }
 
